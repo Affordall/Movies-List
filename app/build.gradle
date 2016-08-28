@@ -66,4 +66,7 @@ dependencies {
     // Annotations
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'org.jetbrains:annotations-java5:15.0'
+
+    // VideoPlayer
+    compile 'fm.jiecao:jiecaovideoplayer:4.6'
 }
