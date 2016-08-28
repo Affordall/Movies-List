@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Movies List</string>
+
+    <string name="share_via">Share via</string>
+    <string name="action_settings">Settings</string>
+    <string name="updating_progress">Updating…</string>
+    <string name="update_complete">Done!</string>
+    <string name="internet_is_off">Internet is off :(</string>
+    <string name="search_hint">Interstellar</string>
+    <string name="search_title">Search</string>
+    <string name="no_records">There are no items</string>
+    <string name="wrong_input">Wrong input</string>
+    <string name="search_result">Found: </string>
+</resources>

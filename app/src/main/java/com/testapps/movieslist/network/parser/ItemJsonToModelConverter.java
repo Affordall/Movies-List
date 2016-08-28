@@ -2,12 +2,13 @@ package com.testapps.movieslist.network.parser;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.testapps.movieslist.db.DatabaseKeyNames;
+import com.testapps.movieslist.database.DatabaseKeyNames;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemJsonToModelConverter {
@@ -30,10 +31,27 @@ public class ItemJsonToModelConverter {
     }
 
     private List<String> getMovieGenresListResult(JSONObject jsonObjectItem) throws JSONException {
-        JSONArray jsonArrayGenres = jsonObjectItem.getJSONArray(DatabaseKeyNames.MOVIE_GENRES_OBJECT_STRING);
-        String jsonFormattedString = jsonArrayGenres.toString();
-        return Stream.of(jsonFormattedString.split("\\s*,\\s*"))
-                .collect(Collectors.toList());
+        JSONArray jsonArrayGenres = null;
+        if (jsonObjectItem.has(DatabaseKeyNames.MOVIE_GENRES_OBJECT_STRING)) {
+            jsonArrayGenres = jsonObjectItem.getJSONArray(DatabaseKeyNames.MOVIE_GENRES_OBJECT_STRING);
+        } else if (jsonObjectItem.has(DatabaseKeyNames.MOVIE_GENRES_ID_OBJECT_STRING)) {
+            jsonArrayGenres = jsonObjectItem.getJSONArray(DatabaseKeyNames.MOVIE_GENRES_ID_OBJECT_STRING);
+        }
+
+        List<String> finalList = new ArrayList<>();
+
+        for (int jsonArrayIndex = 0; jsonArrayIndex < jsonArrayGenres.length(); jsonArrayIndex++) {
+
+            JSONObject jsonObjItem = jsonArrayGenres.optJSONObject(jsonArrayIndex);
+
+            if (jsonObjItem != null && jsonObjItem.has("name")) {
+                    String jsonFormattedString = jsonObjItem.optString("name" , "");
+                    finalList.add(jsonFormattedString);
+            }
+
+        }
+
+        return finalList;
     }
 
     private String getMovieLanguageResult(JSONObject jsonObjectItem) throws JSONException {

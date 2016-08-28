@@ -1,4 +1,4 @@
-package com.testapps.movieslist.db;
+package com.testapps.movieslist.database;
 
 import com.testapps.movieslist.models.Movie;
 

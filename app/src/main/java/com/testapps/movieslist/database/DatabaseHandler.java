@@ -1,4 +1,4 @@
-package com.testapps.movieslist.db;
+package com.testapps.movieslist.database;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -19,6 +19,8 @@ import com.testapps.movieslist.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -52,6 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper implements MovieListener {
             + DatabaseKeyNames.MOVIE_VOTE_AVERAGE_STRING + " TEXT,"
             + DatabaseKeyNames.MOVIE_VOTE_COUNT_STRING + " TEXT" + ")";
 
+    @Inject
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         c2m = toModelConverter.getmCallbackCursorToModelConverter();
@@ -159,6 +162,35 @@ public class DatabaseHandler extends SQLiteOpenHelper implements MovieListener {
             closeDB(db);
         }
         return resultMovieList;
+    }
+
+    public Movie getMovie(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_MOVIES,
+                new String[]{
+                        DatabaseKeyNames.MOVIE_ID_STRING,
+                        DatabaseKeyNames.MOVIE_ADULT_FLAG_STRING,
+                        DatabaseKeyNames.MOVIE_GENRES_OBJECT_STRING,
+                        DatabaseKeyNames.MOVIE_LANGUAGE_STRING,
+                        DatabaseKeyNames.MOVIE_TITLE_STRING,
+                        DatabaseKeyNames.MOVIE_OVERVIEW_STRING,
+                        DatabaseKeyNames.MOVIE_RELEASE_DATE_STRING,
+                        DatabaseKeyNames.MOVIE_POSTER_URL_STRING,
+                        DatabaseKeyNames.MOVIE_POPULARITY_STRING,
+                        DatabaseKeyNames.MOVIE_TRAILER_URL_STRING,
+                        DatabaseKeyNames.MOVIE_VOTE_AVERAGE_STRING,
+                        DatabaseKeyNames.MOVIE_VOTE_COUNT_STRING},
+                DatabaseKeyNames.MOVIE_ID_STRING + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Movie singleItem = createNewMovieByCursor(cursor);
+
+        if (cursor != null)
+            cursor.close();
+        closeDB(db);
+        return singleItem;
     }
 
     @Override

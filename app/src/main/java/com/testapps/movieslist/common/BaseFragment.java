@@ -1,7 +1,6 @@
 package com.testapps.movieslist.common;
 
-
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.testapps.movieslist.di.IHasComponent;
 

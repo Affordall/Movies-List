@@ -1,6 +1,7 @@
 package com.testapps.movieslist.di.modules;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.testapps.movieslist.app.MoviesListApp;
 import com.testapps.movieslist.models.Movie;
@@ -29,6 +30,12 @@ public class MoviesListAppModule {
     @Provides
     @Singleton
     public Application provideApplication() {
+        return app;
+    }
+
+    @Provides
+    @Singleton
+    public Context provideContext(){
         return app;
     }
 

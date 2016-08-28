@@ -47,6 +47,9 @@ dependencies {
     // Debug, duh
     compile 'com.jakewharton.timber:timber:4.1.0'
 
+    // Loading Screen
+    compile 'com.github.d-max:spots-dialog:0.4@aar'
+
     // Support Java 8 streams
     compile 'com.annimon:stream:1.1.0'
 
